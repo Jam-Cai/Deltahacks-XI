@@ -10,9 +10,12 @@ const PORT = process.env.PORT || 3000;
 
 // Correct MongoDB URI
 mongoose.connect(
-  'mongodb+srv://jamescai123123:NDZgEnDAURrtVWO8@b-audit.pah9i.mongodb.net/?retryWrites=true&w=majority&appName=b-audit',
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+  'mongodb+srv://jamescai123123:NDZgEnDAURrtVWO8@b-audit.pah9i.mongodb.net/?retryWrites=true&w=majority&appName=b-audit'
+).then(() => {
+  console.log('Connected to MongoDB');
+}).catch((err) => {
+  console.error('Error connecting to MongoDB:', err);
+});
 
 // Middleware
 app.use(cors());
