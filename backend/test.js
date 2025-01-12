@@ -22,6 +22,6 @@ const client = twilio(accountSid, authToken);
     
     console.log(call.sid);
   }
-
+  
 createCall();
 
