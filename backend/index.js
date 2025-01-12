@@ -35,17 +35,24 @@ app.post("/api/analysis", async (req, res) => {
 app.post("/call", (request, response) => {
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
+  const questions = [
+    "Hi, what's your name?",
+    "Where are you coming from?",
+    "Where did you study?",
+    "Why do you want money?",
+  ];
 
-  for (let i = 0; i < 3; i++) {
-    twiml.say("Hello.");
+  questions.forEach((question) => {
+    twiml.say(question);
+    console.log(question);
     twiml.record({
       transcribe: true,
       transcribeCallback: "/transcription",
       maxLength: 5,
-      playBeep: false
+      playBeep: false,
     });
     twiml.pause({ length: 1 }); // Pause for 1 second between recordings
-  }
+  });
 
   // End the call with <Hangup>
   twiml.hangup();
