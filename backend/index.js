@@ -7,6 +7,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const VoiceResponse = twilio.twiml.VoiceResponse;
 
+
+const CallAnalysisSchema = new mongoose.Schema({
+  sentiment: { type: String, required: true },
+  summary: { type: String, required: true },
+});  
+
+
 // Middleware
 app.use(cors());
 app.use(express.json());
