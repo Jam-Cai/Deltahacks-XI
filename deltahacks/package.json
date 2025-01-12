@@ -10,9 +10,15 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.1.1",
+    "@tabler/icons-react": "^3.28.1",
+    "clsx": "^2.1.1",
+    "cobe": "^0.6.3",
+    "framer-motion": "^11.17.0",
     "next": "^15.1.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.6.0",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "postcss": "^8",
