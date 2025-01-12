@@ -266,7 +266,7 @@ app.post(`/gather/${questions.length}`, async (request, response) => {
             loaner_attitude: {
               type: "string",
               description:
-                "Describes the emotional tone or attitude of the applicant, e.g., 'Calm', 'Frustrated', etc.",
+                "Describes the emotional tone or attitude of the representative, taking clear note of abnormalities.",
             },
           },
           required: [

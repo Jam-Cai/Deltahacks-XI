@@ -39,7 +39,7 @@ export function Hero() {
             <div className="bg-white shadow-2xl h-48 w-full p-8 rounded-2xl hover:scale-105 hover:ease-in-out hover:duration-300">
               <h1 className="text-2xl mb-4">Why FairFi?</h1>
               <p className="text-lg font-normal">
-                FairFi addresses bias in loans that disproportionately affect
+                FairFi addresses bias in loan lending that disproportionately affect
                 Black communities.
               </p>
             </div>

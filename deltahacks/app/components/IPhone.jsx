@@ -1,74 +1,3 @@
-// import React from "react";
-
-// function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
-//   return (
-//     <div className="flex items-center justify-center p-4">
-//       <div className="relative mx-auto h-[800px] w-[400px] rounded-[60px] bg-gray-800 p-5 shadow-xl">
-//         {/* Frame notch */}
-//         <div className="absolute left-1/2 top-0 h-6 w-40 -translate-x-1/2 rounded-b-3xl bg-gray-800"></div>
-
-//         {/* Volume buttons */}
-//         <div className="absolute -left-1 top-16 h-12 w-1 rounded-l-lg bg-gray-800"></div>
-//         <div className="absolute -left-1 top-32 h-12 w-1 rounded-l-lg bg-gray-800"></div>
-
-//         {/* Power button */}
-//         <div className="absolute -right-1 top-16 h-12 w-1 rounded-r-lg bg-gray-800"></div>
-
-//         {/* Screen */}
-//         <div
-//           style={{
-//             backgroundImage: "url('phonebg.svg')",
-//             backgroundSize: "cover",
-//           }}
-//           className="h-full w-full rounded-[45px] bg-white flex flex-col gap-8 items-center justify-center"
-//         >
-//           <div className="w-4/5 py-4 px-8 rounded-2xl text-center text-md text-black space-y-2 ">
-//             <h1 className="font-black text-6xl">
-//               Fair<span className="text-[#FBAE3C]">Fi</span>
-//             </h1>
-//             <h2>Let's begin</h2>
-//           </div>
-
-//           <div className="bg-white w-4/5 shadow-2xl py-4 px-8 rounded-2xl text-sm text-black space-y-2 hover:bg-[#FBAE3C] hover:duration-300">
-//             <h1 className="font-bold text-lg">Phone Number</h1>
-//             <input
-//               type="text"
-//               placeholder="XXX-XXX-XXXX"
-//               className="border-2 rounded-2xl p-2 w-full"
-//             />
-//           </div>
-
-//           <div className="bg-white w-4/5 shadow-2xl py-4 px-8 rounded-2xl text-sm text-black space-y-2 hover:bg-[#FBAE3C] hover:duration-300">
-//             <h1 className="font-bold text-lg">Gender</h1>
-//             <input
-//               type="text"
-//               placeholder="XXX-XXX-XXXX"
-//               className="border-2 rounded-2xl p-2 w-full"
-//             />
-//           </div>
-
-//           <div className="bg-white w-4/5 shadow-2xl py-4 px-8 rounded-2xl text-sm text-black hover:bg-[#FBAE3C] hover:duration-300 space-y-2">
-//             <h1 className="font-bold text-lg">Accent</h1>
-//             <input
-//               type="text"
-//               placeholder="XXX-XXX-XXXX"
-//               className="border-2 rounded-2xl p-2 w-full"
-//             />
-//           </div>
-//           <button className="bg-black text-white w-4/5 shadow-2xl py-4 px-8 rounded-2xl hover:bg-[#FBAE3C] hover:duration-300 space-y-2">
-//             <h1 className="font-bold text-4xl">Call</h1>
-//           </button>
-//         </div>
-
-//         {/* Home button */}
-//         <div className="absolute bottom-4 left-1/2 h-1 w-20 -translate-x-1/2 rounded-full bg-gray-400"></div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default IPhone;
-
 import React, { useState } from "react";
 import { callService } from "../services/api";
 
@@ -80,6 +9,22 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [callResult, setCallResult] = useState(null);
+  const [isShaking, setIsShaking] = useState(false);
+
+  const genderOptions = [
+    { value: "", label: "Select gender" },
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+  ];
+
+  const accentOptions = [
+    { value: "", label: "Select accent" },
+    { value: "british", label: "British" },
+    { value: "american", label: "American" },
+    { value: "australian", label: "Australian" },
+    { value: "indian", label: "Indian" },
+  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -101,55 +46,77 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
     }
 
     setErrors(newErrors);
-    console.log(errors);
-    
-    console.log(`Iphone Gender: ${formData.gender}`);
+
     if (Object.keys(newErrors).length === 0) {
       try {
         setStatus("loading");
-        // Initiate call
+        setIsShaking(true);
+
+        // Start shaking animation
+        setTimeout(() => {
+          setIsShaking(false);
+        }, 5000);
 
         const callresult = await callService.initiateCall(
           formData.gender,
           formData.accent
         );
 
-        // Wait for a moment then fetch analysis
         setTimeout(async () => {
-          console.log("adasda13iru q3rygwiufg weiulFG");
-
           setStatus("success");
-          // const analysisResult = await callService.getAnalysis();
-          // setCallResult(analysisResult.data[0]); // Get the latest analysis
-        }, 3000); // Adjust timing based on your needs
+        }, 3000);
       } catch (error) {
         console.error("Error:", error);
-        // setStatus("error");
       } finally {
         setStatus("success");
       }
     }
   };
 
-  const InputField = ({ label, name, placeholder, value, error }) => (
+  const SelectField = ({ label, name, options, value, error }) => (
     <div className="bg-white w-4/5 shadow-2xl py-4 px-8 rounded-2xl text-sm text-black space-y-2 hover:bg-[#FBAE3C] hover:duration-300">
       <h1 className="font-bold text-lg">{label}</h1>
-      <input
-        type="text"
+      <select
         name={name}
         value={value}
         onChange={handleInputChange}
-        placeholder={placeholder}
         className="border-2 rounded-2xl p-2 w-full focus:outline-none focus:border-[#FBAE3C]"
         disabled={status === "loading"}
-      />
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 
   return (
     <div className="flex items-center justify-center p-4">
-      <div className="relative mx-auto h-[800px] w-[400px] rounded-[60px] bg-gray-800 p-5 shadow-xl">
+      <div
+        className={`relative mx-auto h-[800px] w-[400px] rounded-[60px] bg-gray-800 p-5 shadow-xl ${
+          isShaking ? "animate-shake" : ""
+        }`}
+        style={{
+          animation: isShaking
+            ? "shake 0.2s cubic-bezier(.36,.07,.19,.97) infinite"
+            : "none",
+          transformOrigin: "50% 50%",
+          ["@keyframes shake"]: {
+            "0%, 100%": {
+              transform: "translate3d(0, 0, 0)",
+            },
+            "10%, 30%, 50%, 70%, 90%": {
+              transform: "translate3d(-4px, 0, 0)",
+            },
+            "20%, 40%, 60%, 80%": {
+              transform: "translate3d(4px, 0, 0)",
+            },
+          },
+        }}
+      >
         {/* Frame notch */}
         <div className="absolute left-1/2 top-0 h-6 w-40 -translate-x-1/2 rounded-b-3xl bg-gray-800"></div>
 
@@ -193,9 +160,7 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
                 >
                   {callResult.loan_decision}
                 </p>
-                <p className="mt-4 text-sm">
-                  {callResult.reasons_for_decision}
-                </p>
+                <p className="mt-4 text-sm">{callResult.reasons_for_decision}</p>
                 <p className="mt-2 text-sm italic">
                   Attitude: {callResult.loaner_attitude}
                 </p>
@@ -216,27 +181,18 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
             </div>
           ) : (
             <>
-              {/* <InputField
-                disabled={true}
-                label="Phone Number"
-                name="phone number"
-                placeholder="Enter phone number"
-                value=""
-                error=""
-              /> */}
-
-              <InputField
+              <SelectField
                 label="Gender"
                 name="gender"
-                placeholder="Enter gender"
+                options={genderOptions}
                 value={formData.gender}
                 error={errors.gender}
               />
 
-              <InputField
+              <SelectField
                 label="Accent"
                 name="accent"
-                placeholder="Enter accent"
+                options={accentOptions}
                 value={formData.accent}
                 error={errors.accent}
               />
