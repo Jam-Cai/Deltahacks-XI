@@ -12,16 +12,14 @@ const twilio = require("twilio"); // Or, for ESM: import twilio from "twilio";
 // and set the environment variables. See http://twil.io/secure
 const client = twilio(accountSid, authToken);
 
+export const tService = {createCall: async() => {
+  const call = await client.calls.create({
+    to: `${M_NUMBER}`, // Text your number
+    from: `${T_NUMBER}`, // From a valid Twilio number
+    url: "https://jacobs-macbook-pro.tail8a7d7a.ts.net/call",
+  });
 
-  async function createCall() {
-    const call = await client.calls.create({
-      to: `${M_NUMBER}`, // Text your number
-      from: `${T_NUMBER}`, // From a valid Twilio number
-      url: "https://jacobs-macbook-pro.tail8a7d7a.ts.net/call",
-    });
-    
-    console.log(call.sid);
-  }
-  
-createCall();
-
+  console.log(call.sid);
+}
+}
+// createCall();
