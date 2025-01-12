@@ -17,12 +17,11 @@ const client = twilio(accountSid, authToken);
     const call = await client.calls.create({
       to: `${M_NUMBER}`, // Text your number
       from: `${T_NUMBER}`, // From a valid Twilio number
-      url: "https://warm-rice-think.loca.lt/call",
+      url: "https://jacobs-macbook-pro.tail8a7d7a.ts.net/call",
     });
     
-    const transcript = 
-
     console.log(call.sid);
   }
 
 createCall();
+

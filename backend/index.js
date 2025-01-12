@@ -1,23 +1,18 @@
-require("dotenv").config();
-const twilio = require("twilio");
-const express = require("express");
-const cors = require("cors");
+import dotenv from "dotenv"; // Load environment variables
+import twilio from "twilio";
+import express from "express";
+import cors from "cors";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const VoiceResponse = twilio.twiml.VoiceResponse;
 
-
-const CallAnalysisSchema = new mongoose.Schema({
-  sentiment: { type: String, required: true },
-  summary: { type: String, required: true },
-});  
-
-
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 
 // Routes
 app.get("/", (req, res) => {
@@ -29,71 +24,46 @@ app.get("/results", (req, res) => {
 });
 
 app.post("/api/makeCall", async (req, res) => {
-  res.send("Make Call API");
+  res.send("Make Call API"); // Placeholder response
 });
 
 app.post("/api/analysis", async (req, res) => {
-  res.send("Analysis API");
+  res.send("Analysis API"); // Placeholder response
 });
 
-// Twilio voice handler
-app.post("/call", (req, res) => {
-  const response = new VoiceResponse();
+// for Twilio
+app.post("/call", (request, response) => {
+  // Use the Twilio Node.js SDK to build an XML response
+  const twiml = new VoiceResponse();
 
-  // Start recording the entire call
-  // response.startRecording({
-  //   action: "/recording-complete",
-  //   timeout: 0,
-  //   transcribe: true,
-  //   transcribeCallback: "/transcription",
-  //   maxLength: 3600, // Maximum length in seconds (1 hour)
-  //   recordingStatusCallback: "/recording-status",
-  //   playBeep: false,
-  // });
+  for (let i = 0; i < 3; i++) {
+    twiml.say("Hello.");
+    twiml.record({
+      transcribe: true,
+      transcribeCallback: "/transcription",
+      maxLength: 5,
+      playBeep: false
+    });
+    twiml.pause({ length: 1 }); // Pause for 1 second between recordings
+  }
 
-  // Your dialogue script
-  const script = [
-    "Hi, I'm interested in applying for a personal loan.",
-    "My name is [INSERT_NAME]",
-    `I live at [INSERT_ADDRESS] in [INSERT_CITY]. I've been there for two years.`,
-    // ... rest of your script ...
-  ];
+  // End the call with <Hangup>
+  twiml.hangup();
 
-  // Add each line with appropriate pauses
-  script.forEach((line) => {
-    response.say({ voice: "alice" }, line);
-    console.log(line)
-    response.pause({ length: 1 });
-  });
-
-  // End the call after script completion
-  response.hangup();
-
-  res.type("text/xml");
-  res.send(response.toString());
-});
-
-// Handle recording completion
-app.post("/recording-complete", (req, res) => {
-  const response = new VoiceResponse();
-  console.log("Recording completed:", req.body.RecordingUrl);
-  res.type("text/xml");
-  res.send(response.toString());
-});
-
-// Handle recording status updates
-app.post("/recording-status", (req, res) => {
-  console.log("Recording status:", req.body.RecordingStatus);
-  res.sendStatus(200);
+  // Render the response as XML in reply to the webhook request
+  response.type("text/xml");
+  console.log(twiml.toString());
+  response.send(twiml.toString());
 });
 
 // Handle transcription callback
-app.post("/transcription", (req, res) => {
-  console.log("Transcription:", req.body.TranscriptionText);
-  console.log("Transcription URL:", req.body.TranscriptionUrl);
-  res.sendStatus(200);
+app.post("/transcription", (request, response) => {
+  const transcriptionText = request.body.TranscriptionText;
+  console.log("Transcription: ", transcriptionText);
+  response.sendStatus(200);
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
