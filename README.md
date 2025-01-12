@@ -1,1 +1,1 @@
-# DeltaHacks
+# FairFi
