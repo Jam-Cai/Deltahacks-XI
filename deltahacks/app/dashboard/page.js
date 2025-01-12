@@ -51,9 +51,9 @@ const Page = () => {
                 alt="Business Avatar"
                 className="rounded-3xl w-36 h-36 object-cover"
               />
-              <h1 className="text-5xl">EQ Bank</h1>
+              <h1 className="text-5xl">Waterloo Bank</h1>
               <p className="font-normal">
-                EQ Bank redefines banking with innovative, customer-focused
+                Waterloo Bank redefines banking with innovative, customer-focused
                 financial solutions. From high-interest savings accounts to
                 seamless international money transfers, we empower you to make
                 the most of your money.

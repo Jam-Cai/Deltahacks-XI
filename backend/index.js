@@ -49,12 +49,21 @@ app.post("/api/call", (req, res) => {
     from: `${T_NUMBER}`, // From a valid Twilio number
     url: "https://jacobs-macbook-pro.tail8a7d7a.ts.net/call",
   });
-  if (req.params.gender == "male") {
+  console.log(req);
+  console.log("---------------------");
+  console.log(req.params);
+  console.log("---------------------");
+  console.log(req.body);
+  console.log("---------------------");
+  console.log(req.query);
+
+  if (req.body.gender == "male") {
     tVoice = "man";
-  } else if (req.params.gender == "female") {
+  } else if (req.body.gender == "female") {
     tVoice = "woman";
   }
-  console.log(tVoice);
+
+  console.log(`index: ${req.body.gender}`);
 
   res.sendStatus(200);
 });

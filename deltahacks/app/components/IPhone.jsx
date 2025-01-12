@@ -81,7 +81,6 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [callResult, setCallResult] = useState(null);
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -91,6 +90,7 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
   };
 
   const handleSubmit = async () => {
+    console.log(`Iphone Gender: ${formData.gender}`);
     const newErrors = {};
 
     if (!formData.gender.trim()) {
@@ -102,11 +102,13 @@ function IPhone({ title = "Hello World!", subtitle = "Welcome to my iPhone" }) {
 
     setErrors(newErrors);
     console.log(errors);
-
+    
+    console.log(`Iphone Gender: ${formData.gender}`);
     if (Object.keys(newErrors).length === 0) {
       try {
         setStatus("loading");
         // Initiate call
+
         const callresult = await callService.initiateCall(
           formData.gender,
           formData.accent
