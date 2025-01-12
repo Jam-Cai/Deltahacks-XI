@@ -7,6 +7,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'], // Add Inter as the default sans font
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
