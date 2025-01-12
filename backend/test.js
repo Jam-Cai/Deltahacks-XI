@@ -17,7 +17,7 @@ const client = twilio(accountSid, authToken);
     const call = await client.calls.create({
       to: `${M_NUMBER}`, // Text your number
       from: `${T_NUMBER}`, // From a valid Twilio number
-      url: "https://seven-jokes-hang.loca.lt/call",
+      url: "https://warm-rice-think.loca.lt/call",
     });
     
     const transcript = 
