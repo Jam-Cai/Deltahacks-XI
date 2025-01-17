@@ -61,8 +61,15 @@ FairFi is an innovative platform designed to help organizations uncover and addr
 ## How do I use it?
 <div id="how-to-use" />
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To clone and run this application, ensure you have [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) installed. Then follow the steps below
 
+
+
+
+
+
+
+z
 ```bash
 # Clone this repository
 $ git clone https://github.com/yourusername/fairfi
